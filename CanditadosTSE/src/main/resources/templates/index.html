@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="form">
+        <form method="get" th:action="@{/}" class="filtros">
+            <input type="text" name="texto" th:value="${textoSelecionado}">
+            <select name="cargo">
+                <option value="" th:selected="${cargoSelecionado == ''}">Todos</option>
+                <option th:each="c : ${cargos}" th:value="${c}" th:text="${c}" th:selected="${c == cargoSelecionado}">
+                </option>
+            </select>
+            <button type="submit">Filtrar</button>
+            <a th:href="@{/}" class="limpar">Limpar</a>
+        </form>
+    </div>
+
+    <div class="card" th:each="cand : ${candidatos}">
+        <img th:src="@{'/images/candidatos/' + ${cand.nomeArquivoFoto}}" th:alt="${cand.nomeUrna}"
+            class="foto-candidato">
+        <p class="situacao" th:if="${cand.situacaoCandidatura != null amd !card.situacaoCandidatura.isBlank()}"
+            th:text="${cand.situacaoCandidatura}">Situacao</p>
+        <p class="extra" th:if="${cand.ocupacao != null amd !card.ocupacao.isBlank()}">
+            <span th:text="${cand.idade + ' anos'}">idade</span>
+        </p>
+
+        <p class="extra" th:if="${cand.ocupacao != null amd !card.ocupacao.isBlank()}"
+            th:text="${cand.ocupacao}">Ocupação</p>
+        <p class="extra" th:if="${cand.grauInstrucao != null amd !card.grauInstrucao.isBlank()}"
+            th:text="${cand.grauInstrucao}">Escolaridade</p>
+
+        <p class="resultado-info">
+            <span th:text="${totalEncontrado}">0</span> candidatos(s) encontrado(s).
+        </p>
+
+        <p th:if="${totalEncontrado == 0}" class="sem-resultado">
+            Nenhum candidato encontrado com esses filtros
+        </p>
+
+    </div>
+
+</body>
+
+</html>
